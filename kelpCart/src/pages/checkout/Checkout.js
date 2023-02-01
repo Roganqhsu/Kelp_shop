@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-// import { loadStripe } from '@stripe/stripe-js';
-// import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
@@ -13,13 +13,13 @@ import {
   selectCartTotalAmount
 } from "../../redux/slice/cartSlice";
 import { selectEmail } from "../../redux/slice/authSlice";
-// import {
-//   selectBillingAddress,
-//   selectShippingAddress
-// }
-//   from '../../redux/slice/checkoutSlice';
+import {
+  selectBillingAddress,
+  selectShippingAddress
+}
+  from '../../redux/slice/checkoutSlice';
 
-// const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
   // 本地端變數
@@ -31,42 +31,43 @@ const Checkout = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const Email = useSelector(selectEmail);
-  // const billingAddress = useSelector(selectBillingAddress);
-  // const shippingAddress = useSelector(selectShippingAddress);
-  // useEffect(() => {
-  //   dispatch(CALCULATE_SUBTOTAL());
-  //   dispatch(CALCULATE_TOTAL_QUANTITY());
+  const billingAddress = useSelector(selectBillingAddress);
+  const shippingAddress = useSelector(selectShippingAddress);
+  useEffect(() => {
+    dispatch(CALCULATE_SUBTOTAL());
+    dispatch(CALCULATE_TOTAL_QUANTITY());
 
-  // }, []
-  // );
+  }, []
+  );
+  console.log();
   const description = `eShop payment: email: ${Email}, Amount: ${cartTotalAmount}`
-  // useEffect(() => {
-  //   // Create PaymentIntent as soon as the page loads
-  //   fetch("/create-payment-intent", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       items: cartItems,
-  //       userEmail: Email,
-  //       shipping: shippingAddress,
-  //       billing: billingAddress,
-  //       description,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json()
-  //       }
-  //       return res.json().then((json) => Promise.reject(json))
-  //     })
-  //     .then((data) => {
-  //       setClientSecret(data.clientSecret)
-  //     })
-  //     .catch((error) => {
-  //       setMessage("error")
-  //       console.log(error);
-  //     })
-  // }, []);
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("http://localhost:4242/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: cartItems,
+        userEmail: Email,
+        shipping: shippingAddress,
+        billing: billingAddress,
+        description,
+      }),
+    })
+      .then((res) => {
+        if (res.ok)  {
+          return res.json()
+        }
+        return res.json().then((json) => Promise.reject(json))
+      })
+      .then((data) => {
+        setClientSecret(data.clientSecret)
+      })
+      .catch((error) => {
+        setMessage("error")
+        console.log(error);
+      })
+  }, []);
   const appearance = {
     theme: "stripe",
   };
@@ -78,10 +79,10 @@ const Checkout = () => {
     <>
       {/* <CheckoutForm options={options} stripe={stripePromise} /> */}
 
-      {/* <Elements>
+      <Elements>
         <CheckoutForm options={options} stripe={stripePromise} />
-      </Elements> */}
-      {/* <section>
+      </Elements>
+      <section>
         <div className="container">
           {!clientSecret && <h3>{message}</h3>}
         </div>
@@ -90,7 +91,7 @@ const Checkout = () => {
         <Elements>
           <CheckoutForm options={options} stripe={stripePromise} />
         </Elements>
-      )} */}
+      )}
     </>
   )
 }

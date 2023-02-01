@@ -1,6 +1,6 @@
 import { current } from '@reduxjs/toolkit';
 import React from 'react'
-import Cart_test from './cart/Cart_test'
+import Cart_test from './cart/Cart_test';
 const Test = () => {
   const array1 = [1, 2, 36, 5];
 

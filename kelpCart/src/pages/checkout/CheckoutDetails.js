@@ -2,13 +2,13 @@ import React from 'react';
 
 import { useState } from "react";
 import { CountryDropdown } from "react-country-region-selector";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/card/Card";
 import CheckoutSummary from "../../components/checkoutSummary/CheckoutSummary.js";
 
 // slice
-import { SAVE_BILLING_ADDRESS, SAVE_SHIPPING_ADDRESS } from "../../redux/slice/checkoutSlice";
+import { SAVE_BILLING_ADDRESS, SAVE_SHIPPING_ADDRESS,selectBillingAddress } from "../../redux/slice/checkoutSlice";
 
 import styles from "./CheckoutDetails.module.scss";
 
@@ -53,14 +53,15 @@ const CheckoutDetails = () => {
             [name]: value
         })
     }
-
-
-
+    // const newBillingAddress = useSelector(selectBillingAddress);
+    const test =()=>{
+        dispatch(SAVE_BILLING_ADDRESS(billingAddress));
+    }
     const handleSubmit = (e) => {
         // e.preventDefault();
         dispatch(SAVE_SHIPPING_ADDRESS(shippingAddress));
         dispatch(SAVE_BILLING_ADDRESS(billingAddress));
-        navigate('/')
+        navigate('/checkout')
     };
 
     return (
@@ -71,6 +72,7 @@ const CheckoutDetails = () => {
                     onSubmit={handleSubmit}
                 >
                     <div>
+                        <button onClick={()=>test()}>Test</button>
                         <Card cardClass={styles.card}>
                             <h3>Shipping Address</h3>
                             <label>Recipient Name</label>
