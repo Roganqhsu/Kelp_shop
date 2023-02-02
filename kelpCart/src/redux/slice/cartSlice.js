@@ -76,7 +76,7 @@ const cartSlice = createSlice({
       )
       const totalPrice=array.reduce((acc, cur) => {
         return acc + cur
-      })
+      },0)
       state.cartTotalAmount=totalPrice;
     },
     // 計算商品數量
@@ -92,7 +92,7 @@ const cartSlice = createSlice({
       )
       const totalQuantity= quantityArray.reduce((acc, cur) => {
         return acc + cur
-      })
+      },0)
       state.cartTotalQuantity=totalQuantity;
     },
     // 取得網址

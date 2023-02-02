@@ -2,26 +2,27 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const stripe = require("stripe")("sk_test_51MUAPPF2090Dn7I1Kx8Xb2B7JQ2yQWPzr2tlI8MFTKq53k1vZ6QgArdqmCvvT9vk5qskNxQ84rPjDZ5zVMe0HJNG00bx0kR9Y5");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 app.get("/", (req, res) => {
     res.send("welcome to eShop website!!")
 })
 const array = [];
 const calculateOrderAmount = (items) => {
-    items.cartItem.map(
+    items.map(
         (item) => {
             const { price, cartQuantity } = item
-            const cartItemPrice = price * cartQuantity
-            return array.push(cartItemPrice)
+            const cartItemAmount = price * cartQuantity
+            return array.push(cartItemAmount)
         }
     )
     const totalAmount = array.reduce((acc, cur) => {
         return acc + cur
-    })
+    },0)
     
     return totalAmount * 100;
 };

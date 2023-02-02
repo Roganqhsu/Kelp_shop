@@ -19,7 +19,7 @@ import {
 }
   from '../../redux/slice/checkoutSlice';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
+const stripePromise = loadStripe("pk_test_51MUAPPF2090Dn7I1Dg8VBtv9jqP6zWAyAF34PYLF7wrt8K0noWjVfXxKohjTFgLme8x7cwi1Y8WMT9xSiQ2kJjbE00EkIzKOvG");
 
 const Checkout = () => {
   // 本地端變數
@@ -79,17 +79,17 @@ const Checkout = () => {
     <>
       {/* <CheckoutForm options={options} stripe={stripePromise} /> */}
 
-      <Elements>
+      {/* <Elements>
         <CheckoutForm options={options} stripe={stripePromise} />
-      </Elements>
+      </Elements> */}
       <section>
         <div className="container">
           {!clientSecret && <h3>{message}</h3>}
         </div>
       </section>
       {clientSecret && (
-        <Elements>
-          <CheckoutForm options={options} stripe={stripePromise} />
+        <Elements options={options} stripe={stripePromise}>
+          <CheckoutForm  />
         </Elements>
       )}
     </>

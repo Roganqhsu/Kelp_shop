@@ -7,11 +7,12 @@ import { Home, Contact, Login, Register, Reset, Admin, ProductDetails, Cart, Che
 // Components
 import { Header, Footer } from "./components";
 import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
+import CheckoutSuccess from './pages/checkout/CheckoutSuccess';
 function App() {
   return (
-    
+
     <>
-    {/* 1 */}
+      {/* 1 */}
       <BrowserRouter>
         <ToastContainer />
         <>
@@ -43,7 +44,7 @@ function App() {
           <Route path="/checkout-details" element={<CheckoutDetails />} />
           <Route path='/test' element={<Test />} />
           <Route path='/checkout' element={<Checkout />} />
-
+          <Route path='/checkout-success' element={<CheckoutSuccess />} />
         </Routes>
         <Footer />
       </BrowserRouter>
