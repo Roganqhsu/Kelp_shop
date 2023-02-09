@@ -17,19 +17,19 @@ const ChangeOrderStatus = ({ order, id }) => {
     setIsLoading(true);
 
     const orderConfig = {
-      userID: order.userID,
+      userId: order.userId,
       userEmail: order.userEmail,
       orderDate: order.orderDate,
       orderTime: order.orderTime,
       orderAmount: order.orderAmount,
-      orderStatus: status,
+      orderState: status,
       cartItems: order.cartItems,
       shippingAddress: order.shippingAddress,
       createdAt: order.createdAt,
       editedAt: Timestamp.now().toDate(),
     };
     try {
-      setDoc(doc(db, "orders", id), orderConfig);
+      setDoc(doc(db, "order", id), orderConfig);
 
       setIsLoading(false);
       toast.success("Order status changes successfully");
@@ -56,7 +56,7 @@ const ChangeOrderStatus = ({ order, id }) => {
                 <option value="" disabled>
                   -- Choose one --
                 </option>
-                <option value="Order Placed...">Order Placed...</option>
+                <option value="Order Place">Order Placed...</option>
                 <option value="Processing...">Processing...</option>
                 <option value="Shipped...">Shipped...</option>
                 <option value="Delivered">Delivered</option>

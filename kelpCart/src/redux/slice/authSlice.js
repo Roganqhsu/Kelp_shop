@@ -10,7 +10,6 @@ const initialState = {
 const authSlice = createSlice({ 
   name: "auth",
   initialState,
-  // 依reducers還原
   reducers: {
     SET_ACTIVE_USER: (state, action) => {
       // console.log(action.payload);

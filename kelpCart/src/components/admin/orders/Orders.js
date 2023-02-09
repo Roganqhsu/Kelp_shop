@@ -4,21 +4,21 @@ import { useNavigate } from "react-router-dom";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
 
 import {
-  selectOrderHistory,
-  STORE_ORDERS,
+  selectOrderHistoryItem,
+  STORE_ORDER,
 } from "../../../redux/slice/orderSlice";
 import Loader from "../../loader/Loader";
 import styles from "./Orders.module.scss";
 
 const Orders = () => {
-  const { data, isLoading } = useFetchCollection("orders");
-  const orders = useSelector(selectOrderHistory);
+  const { data, isLoading } = useFetchCollection("order");
+  const orders = useSelector(selectOrderHistoryItem);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(STORE_ORDERS(data));
+    dispatch(STORE_ORDER(data));
   }, [dispatch, data]);
 
   const handleClick = (id) => {
@@ -56,7 +56,7 @@ const Orders = () => {
                       orderDate,
                       orderTime,
                       orderAmount,
-                      orderStatus,
+                      orderState,
                     } = order;
                     return (
                       <tr key={id} onClick={() => handleClick(id)}>
@@ -72,12 +72,12 @@ const Orders = () => {
                         <td>
                           <p
                             className={
-                              orderStatus !== "Delivered"
+                              orderState !== "Delivered"
                                 ? `${styles.pending}`
                                 : `${styles.delivered}`
                             }
                           >
-                            {orderStatus}
+                            {orderState}
                           </p>
                         </td>
                       </tr>

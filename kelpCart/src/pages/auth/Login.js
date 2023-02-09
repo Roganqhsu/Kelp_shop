@@ -25,7 +25,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const previousURL = useSelector(selectPreviousURL)
+  const previousURL = useSelector(selectPreviousURL);
 
   const redirectUser = () => {
     if (previousURL.includes("cart")) {
@@ -38,7 +38,6 @@ const Login = () => {
   const loginUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;

@@ -1,34 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  orderHistory: [],
-  totalOrderAmount: null,
-};
+  orderHistoryItem: [],
+  orderTotalAmount: "",
+}
 
-const orderSlice = createSlice({
-  name: "orders",
+const OrderHistorySlice = createSlice({
+  name: 'orders',
   initialState,
   reducers: {
-    STORE_ORDERS(state, action) {
-      state.orderHistory = action.payload;
+    STORE_ORDER(state, action) {
+      state.orderHistoryItem = action.payload;
     },
-    CALC_TOTAL_ORDER_AMOUNT(state, action) {
+    ORDER_AMOUNT(state, action) {
       const array = [];
-      state.orderHistory.map((item) => {
+      state.orderHistoryItem.map((item) => {
         const { orderAmount } = item;
         return array.push(orderAmount);
       });
       const totalAmount = array.reduce((a, b) => {
         return a + b;
       }, 0);
-      state.totalOrderAmount = totalAmount;
-    },
-  },
-});
+      state.orderTotalAmount = totalAmount;
+    }
+  }
+})
 
-export const { STORE_ORDERS, CALC_TOTAL_ORDER_AMOUNT } = orderSlice.actions;
+export const { STORE_ORDER, ORDER_AMOUNT } = OrderHistorySlice.actions
 
-export const selectOrderHistory = (state) => state.orders.orderHistory;
-export const selectTotalOrderAmount = (state) => state.orders.totalOrderAmount;
-
-export default orderSlice.reducer;
+export const selectOrderHistoryItem = (state) => state.orders.orderHistoryItem
+export const selectOrderHistoryAmount = (state) => state.orders.orderTotalAmount
+export default OrderHistorySlice.reducer

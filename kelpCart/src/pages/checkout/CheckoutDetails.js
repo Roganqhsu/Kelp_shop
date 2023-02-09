@@ -35,15 +35,14 @@ const CheckoutDetails = () => {
     })
 
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate=useNavigate();
 
     const handleShipping = (e) => {
         const { name, value } = e.target;
         setShippingAddress({
             ...shippingAddress,
             [name]: value
-        }
-        )
+        })
     }
 
     const handleBilling = (e) => {

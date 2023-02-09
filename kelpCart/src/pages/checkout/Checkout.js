@@ -16,8 +16,7 @@ import { selectEmail } from "../../redux/slice/authSlice";
 import {
   selectBillingAddress,
   selectShippingAddress
-}
-  from '../../redux/slice/checkoutSlice';
+} from '../../redux/slice/checkoutSlice';
 
 const stripePromise = loadStripe("pk_test_51MUAPPF2090Dn7I1Dg8VBtv9jqP6zWAyAF34PYLF7wrt8K0noWjVfXxKohjTFgLme8x7cwi1Y8WMT9xSiQ2kJjbE00EkIzKOvG");
 
@@ -36,10 +35,7 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL());
     dispatch(CALCULATE_TOTAL_QUANTITY());
-
-  }, []
-  );
-  console.log();
+  }, []);
   const description = `eShop payment: email: ${Email}, Amount: ${cartTotalAmount}`
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -62,6 +58,9 @@ const Checkout = () => {
       })
       .then((data) => {
         setClientSecret(data.clientSecret)
+        console.log("data: " + JSON.stringify(data));
+
+        console.log(data);
       })
       .catch((error) => {
         setMessage("error")

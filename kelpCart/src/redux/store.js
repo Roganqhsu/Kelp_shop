@@ -4,15 +4,15 @@ import productSlice from "./slice/productSlice";
 import filterReducer from "./slice/filterSlice";
 import cartReducer from "./slice/cartSlice";
 import CheckoutReducer from "./slice/checkoutSlice";
-// import orderReducer from "./slice/orderSlice";
+import orderReducer from "./slice/orderSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   product: productSlice,
   filter: filterReducer,
   cart:cartReducer,
-  checkout:CheckoutReducer
-  // orders: orderReducer,
+  checkout:CheckoutReducer,
+  orders: orderReducer,
 });
 
 const store = configureStore({

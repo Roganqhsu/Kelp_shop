@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 // firebase
 import { collection, doc, setDoc } from "firebase/firestore";
 import { query, where, onSnapshot, orderBy, deleteDoc } from "firebase/firestore";
-import { ref, deleteObject } from 'firebase/storage'
 import { db, storage } from '../firebase/config'
 
 // redux

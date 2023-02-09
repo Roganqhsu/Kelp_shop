@@ -9,14 +9,14 @@ import {
   selectProducts,
   STORE_PRODUCTS,
 } from "../../../redux/slice/productSlice";
-// import {
-//   CALC_TOTAL_ORDER_AMOUNT,
-//   selectOrderHistory,
-//   selectTotalOrderAmount,
-//   STORE_ORDERS,
-// } from "../../../redux/slice/orderSlice";
-// import useFetchCollection from "../../../customHooks/useFetchCollection";
-// import Chart from "../../chart/Chart";
+import {
+  ORDER_AMOUNT,
+  selectOrderHistoryItem,
+  selectOrderHistoryAmount,
+  STORE_ORDER,
+} from "../../../redux/slice/orderSlice";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
+import Chart from "../../chart/Chart";
 
 //Icons
 const earningIcon = <AiFillDollarCircle size={30} color="#b624ff" />;
@@ -24,26 +24,25 @@ const productIcon = <BsCart4 size={30} color="#1f93ff" />;
 const ordersIcon = <FaCartArrowDown size={30} color="orangered" />;
 
 const Home = () => {
-  // const products = useSelector(selectProducts);
-  // const orders = useSelector(selectOrderHistory);
-  // const totalOrderAmount = useSelector(selectTotalOrderAmount);
+  const products = useSelector(selectProducts);
+  const orders = useSelector(selectOrderHistoryItem);
+  const totalOrderAmount = useSelector(selectOrderHistoryAmount);
 
-  // const fbProducts = useFetchCollection("products");
-  // const { data } = useFetchCollection("Sorders");
+  const fbProducts = useFetchCollection("products");
+  const { data } = useFetchCollection("order");
 
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(
-  //     STORE_PRODUCTS({
-  //       products: fbProducts.data,
-  //     })
-  //   );
+  useEffect(() => {
+    dispatch(
+      STORE_PRODUCTS({
+        products: fbProducts.data,
+      })
+    );
 
-  //   dispatch(STORE_ORDERS(data));
+    dispatch(STORE_ORDER(data));
 
-  //   dispatch(CALC_TOTAL_ORDER_AMOUNT());
-  // }, [dispatch, data, fbProducts]);
-
+    dispatch(ORDER_AMOUNT());
+  }, [dispatch, data, fbProducts]);
   return (
     <div className={styles.home}>
       <h2>Admin Home</h2>
@@ -51,24 +50,24 @@ const Home = () => {
         <InfoBox
           cardClass={`${styles.card} ${styles.card1}`}
           title={"Earnings"}
-          // count={`$${totalOrderAmount}`}
+          count={`$${totalOrderAmount}`}
           icon={earningIcon}
         />
         <InfoBox
           cardClass={`${styles.card} ${styles.card2}`}
           title={"Products"}
-          // count={products.length}
+          count={products.length}
           icon={productIcon}
         />
         <InfoBox
           cardClass={`${styles.card} ${styles.card3}`}
           title={"Orders"}
-          // count={orders.length}
+          count={orders.length}
           icon={ordersIcon}
         />
       </div>
       <div>
-        {/* <Chart /> */}
+        <Chart />
       </div>
     </div>
   );

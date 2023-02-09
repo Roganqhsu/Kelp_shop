@@ -1,45 +1,62 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Loader from "../../components/loader/Loader";
-import useFetchCollection from "../../customHooks/useFetchCollection";
-import { selectUserID } from "../../redux/slice/authSlice";
-import { selectOrderHistory, STORE_ORDERS } from "../../redux/slice/orderSlice";
-import styles from "./OrderHistory.module.scss";
-
+import React, { useEffect, useState } from 'react'
+// style
+import styles from "./OrderHistory.module.scss"
+// component
+import useFetchCollection from '../../customHooks/useFetchCollection'
+// 
+import { useNavigate } from 'react-router-dom';
+// redux
+import {
+  useSelector,
+  useDispatch
+} from 'react-redux';
+// slice
+import {
+  STORE_ORDER,
+  ORDER_AMOUNT,
+  selectOrderHistoryItem,
+  selectOrderHistoryAmount
+} from '../../redux/slice/orderSlice'
+import {
+  selectUserID
+} from '../../redux/slice/authSlice'
 const OrderHistory = () => {
-  const { data, isLoading } = useFetchCollection("orders");
-  const orders = useSelector(selectOrderHistory);
-  const userID = useSelector(selectUserID);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(STORE_ORDERS(data));
-  }, [dispatch, data]);
-
+  // 本地端變數
+  const { data, isLoading } = useFetchCollection("order")
+  // API
+  const dispatch = useDispatch()
+  // redux
+  const orderHistoryItem = useSelector(selectOrderHistoryItem)
+  const orderHistoryAmount = useSelector(selectOrderHistoryAmount)
+  const userID = useSelector(selectUserID)
+  // 
+  const navigate = useNavigate()
+  useEffect(
+    () => {
+      dispatch(
+        STORE_ORDER(data)
+      )
+    }, [dispatch, data]
+  )
+  const filteredOrders = orderHistoryItem.filter(
+    (item) => (
+      item.userId === userID
+    )
+  )
   const handleClick = (id) => {
-    navigate(`/order-details/${id}`);
-  };
-
-  const filteredOrders = orders.filter((order) => order.userID === userID);
-
+    navigate(`/order-details/${id}`)
+  }
   return (
     <section>
-      <div className={`container ${styles.order}`}>
+      <div className="container">
         <h2>Your Order History</h2>
-        <p>
-          Open an order to leave a <b>Product Review</b>
-        </p>
-        <br />
+        <p>open on order to leave a <b>Product review</b></p>
         <>
-          {isLoading && <Loader />}
           <div className={styles.table}>
-            {filteredOrders.length === 0 ? (
-              <p>No order found</p>
-            ) : (
-              <table>
+            {filteredOrders.length == 0 ? (
+              <div>no product found</div>
+            ) :
+              (<table >
                 <thead>
                   <tr>
                     <th>s/n</th>
@@ -51,46 +68,28 @@ const OrderHistory = () => {
                 </thead>
                 <tbody>
                   {filteredOrders.map((order, index) => {
-                    const {
-                      id,
-                      orderDate,
-                      orderTime,
-                      orderAmount,
-                      orderStatus,
-                    } = order;
+                    const { id } = order
                     return (
-                      <tr key={id} onClick={() => handleClick(id)}>
+                      <tr key={order.id} onClick={() => { handleClick(id) }}>
                         <td>{index + 1}</td>
+                        <td>{order.orderDate} at {order.orderTime}</td>
+                        <td>{order.id}</td>
+                        <td>{order.orderAmount}</td>
                         <td>
-                          {orderDate} at {orderTime}
-                        </td>
-                        <td>{id}</td>
-                        <td>
-                          {"$"}
-                          {orderAmount}
-                        </td>
-                        <td>
-                          <p
-                            className={
-                              orderStatus !== "Delivered"
-                                ? `${styles.pending}`
-                                : `${styles.delivered}`
-                            }
-                          >
-                            {orderStatus}
+                          <p className={order.orderState !== "deliver" ? `${styles.pending}` : `${styles.delivered}`}>
+                            {order.orderState}
                           </p>
                         </td>
                       </tr>
-                    );
+                    )
                   })}
                 </tbody>
-              </table>
-            )}
+              </table>)}
           </div>
         </>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default OrderHistory;
+export default OrderHistory

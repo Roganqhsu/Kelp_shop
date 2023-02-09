@@ -8,8 +8,8 @@ import ChangeOrderStatus from "../changeOrderStatus/ChangeOrderStatus";
 const OrderDetails = () => {
   const [order, setOrder] = useState(null);
   const { id } = useParams();
-  const { document } = useFetchDocument("orders", id);
-
+  const { document } = useFetchDocument("order", id);
+console.log(order);
   useEffect(() => {
     setOrder(document);
   }, [document]);

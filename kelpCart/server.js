@@ -22,7 +22,7 @@ const calculateOrderAmount = (items) => {
     )
     const totalAmount = array.reduce((acc, cur) => {
         return acc + cur
-    },0)
+    }, 0 )
     
     return totalAmount * 100;
 };
@@ -56,6 +56,9 @@ app.post("/create-payment-intent", async (req, res) => {
     res.send({
         clientSecret: paymentIntent.client_secret,
     });
+    console.log("paymentIntent");
+
+    console.log(paymentIntent);
 });
 
 const PORT = process.env.PORT || 4242
